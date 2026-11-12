@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOVA AI — Your AI Workspace</title>
+<style>
+:root{--bg:#0b0d17;--panel:#121626;--panel2:#191f32;--line:#252d43;--text:#eef1ff;--muted:#929bb5;--purple:#8b7cff;--blue:#55b8ff}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 70% -10%,#24204a 0,transparent 34%),var(--bg);color:var(--text);font:15px/1.5 Inter,system-ui,Segoe UI,Arial,sans-serif;min-height:100vh}
+button,textarea{font:inherit}button{cursor:pointer}
+.app{display:flex;min-height:100vh}.sidebar{width:250px;background:#0e1220;border-right:1px solid var(--line);padding:22px 16px;display:flex;flex-direction:column;gap:20px}
+.brand{display:flex;align-items:center;gap:11px;padding:3px 8px 16px}.logo{width:38px;height:38px;border-radius:13px;background:linear-gradient(135deg,#927eff,#4a9cff);display:grid;place-items:center;font-size:21px;box-shadow:0 7px 24px #7868ff44}.brand strong{font-size:19px;letter-spacing:.6px}.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:1.5px}
+.newchat{border:1px solid #514b88;background:#211e3d;color:#fff;border-radius:12px;padding:11px;text-align:left}.navlabel{color:#707b98;font-size:10px;font-weight:700;letter-spacing:1.5px;padding:0 9px;margin:4px 0}.nav{display:grid;gap:6px}.nav button,.history button{background:transparent;border:0;color:#aeb6ce;text-align:left;padding:10px 11px;border-radius:10px}.nav button:hover,.nav button.active,.history button:hover{background:#202640;color:white}.nav button span{display:inline-block;width:27px}.history{display:grid;gap:4px}.history button{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.sidebottom{margin-top:auto;border-top:1px solid var(--line);padding-top:15px}.plan{background:linear-gradient(135deg,#242044,#17233a);border:1px solid #39365f;padding:13px;border-radius:13px}.plan b{font-size:13px}.plan p{font-size:11px;color:var(--muted);margin:4px 0 10px}.plan button{width:100%;border:0;border-radius:8px;padding:8px;color:white;background:#7566e8;font-size:12px}
+.main{flex:1;min-width:0;display:flex;flex-direction:column}.topbar{height:70px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 30px}.crumb{color:var(--muted);font-size:13px}.status{font-size:11px;color:#b5c0d9;border:1px solid var(--line);border-radius:20px;padding:6px 10px}.status i{display:inline-block;width:7px;height:7px;border-radius:50%;background:#f0bd62;margin-right:6px}
+.content{width:min(900px,100%);margin:0 auto;padding:44px 28px 28px;flex:1;display:flex;flex-direction:column}.welcome{text-align:center;margin:12px 0 30px}.orb{width:58px;height:58px;margin:0 auto 18px;border-radius:20px;display:grid;place-items:center;font-size:28px;background:linear-gradient(145deg,#8776ff,#388fdc);box-shadow:0 12px 40px #6c61ff40}.welcome h1{font-size:clamp(26px,4vw,38px);margin:0 0 8px;letter-spacing:-1px}.gradient{background:linear-gradient(90deg,#b2a4ff,#68c9ff);-webkit-background-clip:text;background-clip:text;color:transparent}.welcome p{color:var(--muted);margin:0}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:0 0 26px}.tool{background:linear-gradient(150deg,#171d30,#121727);border:1px solid var(--line);border-radius:14px;padding:15px;text-align:left;color:var(--text);transition:.18s}.tool:hover{transform:translateY(-2px);border-color:#6f65bd;background:#1b2038}.tool .emoji{font-size:21px}.tool b{display:block;margin:9px 0 2px;font-size:13px}.tool small{color:var(--muted);font-size:11px}
+.chat{display:flex;flex-direction:column;gap:14px;flex:1;min-height:180px}.message{max-width:85%;padding:13px 16px;border-radius:15px;font-size:14px;white-space:pre-wrap}.message.bot{align-self:flex-start;background:#171e30;border:1px solid var(--line);color:#dce2f5}.message.user{align-self:flex-end;background:linear-gradient(135deg,#6559c9,#426eb5);color:white}.message .who{display:block;font-size:10px;color:#9da8c4;margin-bottom:5px;font-weight:700;letter-spacing:1px}.message.user .who{color:#e0ddff}
+.composer{position:sticky;bottom:12px;background:#151b2b;border:1px solid #343d59;border-radius:17px;padding:11px;margin-top:22px;box-shadow:0 15px 45px #0005}.composer textarea{width:100%;resize:vertical;min-height:54px;max-height:150px;border:0;outline:0;background:transparent;color:var(--text);padding:5px 7px}.composer textarea::placeholder{color:#77829e}.composebottom{display:flex;align-items:center;justify-content:space-between;padding:2px 4px 0}.hint{font-size:10px;color:#78839e}.send{border:0;background:linear-gradient(135deg,#8b7cff,#4e9fe9);color:white;border-radius:10px;padding:9px 15px;font-weight:700}.notice{text-align:center;color:#707b96;font-size:10px;margin:10px 0 0}
+.page-title{font-size:25px;margin:4px 0 8px}.page-desc{color:var(--muted);margin:0 0 24px}.settingsbox{background:#151b2b;border:1px solid var(--line);padding:18px;border-radius:14px;margin-bottom:12px}.settingsbox p{color:var(--muted);font-size:13px;margin:5px 0}.tag{display:inline-block;border:1px solid #3b4561;color:#b7c2df;padding:4px 8px;border-radius:7px;font-size:11px}
+@media(max-width:760px){.sidebar{width:68px;padding:18px 9px}.brand{padding:0 5px}.brand div:last-child,.newchat .full,.navlabel,.nav button .label,.history,.plan{display:none}.newchat{text-align:center;font-size:0}.newchat:after{content:"＋";font-size:22px}.nav button{text-align:center;padding:11px 3px}.nav button span{width:auto}.topbar{padding:0 16px}.content{padding:30px 16px}.cards{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:420px){.cards{gap:8px}.tool{padding:12px}.message{max-width:95%}.status{font-size:9px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+  <div class="brand"><div class="logo">✦</div><div><strong>NOVA AI</strong><small>YOUR AI WORKSPACE</small></div></div>
+  <button class="newchat" id="newChat">＋ <span class="full">New chat</span></button>
+  <div><div class="navlabel">WORKSPACE</div><nav class="nav">
+    <button class="active" data-page="chat"><span>✧</span><span class="label">AI Chat</span></button>
+    <button data-page="study"><span>▤</span><span class="label">Study AI</span></button>
+    <button data-page="code"><span>⌘</span><span class="label">Code AI</span></button>
+    <button data-page="creative"><span>✎</span><span class="label">Creative AI</span></button>
+  </nav></div>
+  <div><div class="navlabel">RECENT CHATS</div><div class="history" id="history"><button>Chưa có cuộc trò chuyện</button></div></div>
+  <div class="sidebottom"><div class="plan"><b>✦ NOVA Free</b><p>Phiên bản thử nghiệm miễn phí</p><button id="plans">Khám phá các gói</button></div><nav class="nav" style="margin-top:10px"><button data-page="settings"><span>⚙</span><span class="label">Settings</span></button></nav></div>
+</aside>
+<main class="main">
+  <header class="topbar"><div class="crumb" id="crumb">Workspace / AI Chat</div><div class="status"><i></i> Demo mode · AI chưa kết nối</div></header>
+  <section class="content" id="view"></section>
+</main>
+</div>
+<script>
+const view=document.getElementById('view'), crumb=document.getElementById('crumb');
+let page='chat', messages=[];
+const titles={chat:'AI Chat',study:'Study AI',code:'Code AI',creative:'Creative AI',settings:'Settings'};
+const intro={chat:'Bạn có thể hỏi NOVA bất cứ điều gì.',study:'Học từng bước, hiểu bản chất bài học.',code:'Cùng xây dựng ý tưởng và sửa lỗi code.',creative:'Khơi nguồn ý tưởng cho dự án sáng tạo.'};
+function render(){
+ document.querySelectorAll('[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
+ crumb.textContent='Workspace / '+titles[page];
+ if(page==='settings'){view.innerHTML=`<h1 class="page-title">Cài đặt</h1><p class="page-desc">Tùy chỉnh không gian NOVA AI của bạn.</p><div class="settingsbox"><b>Giao diện</b><p>Dark mode · Đang bật</p><span class="tag">Dark theme</span></div><div class="settingsbox"><b>Trạng thái AI</b><p>Đây là bản giao diện thử nghiệm. Chưa kết nối mô hình AI hoặc API.</p><span class="tag">Demo mode</span></div><div class="settingsbox"><b>Dữ liệu</b><p>Lịch sử chat được lưu trên trình duyệt này.</p><button class="send" id="clearHistory">Xóa lịch sử</button></div>`;document.getElementById('clearHistory').onclick=()=>{localStorage.removeItem('novaHistory');loadHistory();alert('Đã xóa lịch sử trên trình duyệt này.')};return}
+ const cards=[['✧','AI Chat','Trò chuyện đa năng','chat'],['▤','Study AI','Học tập và giải bài','study'],['⌘','Code AI','Python và lập trình','code'],['✎','Creative AI','Viết và sáng tạo','creative']];
+ view.innerHTML=`<div class="welcome"><div class="orb">✦</div><h1>Xin chào, <span class="gradient">NOVA</span> đây.</h1><p>${intro[page]}</p></div><div class="cards">${cards.map(c=>`<button class="tool" data-tool="${c[3]}"><span class="emoji">${c[0]}</span><b>${c[1]}</b><small>${c[2]}</small></button>`).join('')}</div><div class="chat" id="chat"></div><div class="composer"><textarea id="prompt" placeholder="Nhắn tin cho NOVA... (Enter để gửi, Shift + Enter để xuống dòng)"></textarea><div class="composebottom"><span class="hint">✦ NOVA AI · Bản thử nghiệm</span><button class="send" id="send">Gửi ↗</button></div></div><div class="notice">NOVA AI hiện dùng phản hồi minh họa, chưa phải câu trả lời từ AI thật.</div>`;
+ document.querySelectorAll('[data-tool]').forEach(b=>b.onclick=()=>{page=b.dataset.tool;messages=[];render()});
+ const chat=document.getElementById('chat');messages.forEach(m=>addBubble(m.role,m.text,chat));
+ const input=document.getElementById('prompt');document.getElementById('send').onclick=send;
+ input.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}});
+}
+function addBubble(role,text,el){const d=document.createElement('div');d.className='message '+(role==='user'?'user':'bot');const who=document.createElement('span');who.className='who';who.textContent=role==='user'?'BẠN':'NOVA · DEMO';d.append(who,document.createTextNode(text));el.appendChild(d);el.scrollTop=el.scrollHeight}
+function response(text){
+ const lower=text.toLowerCase();
+ if(page==='code'||/python|code|lập trình|lỗi/.test(lower))return 'Mình có thể giúp bạn học lập trình từng bước.\\n\\nTrong bản V1, phản hồi này chỉ là minh họa. Khi kết nối AI thật, NOVA sẽ có thể phân tích code và giải thích lỗi cụ thể.';
+ if(page==='study'||/bài tập|học|toán|tiếng anh|tiếng trung/.test(lower))return 'Mẹo học cùng NOVA: chia bài thành các bước nhỏ, tự thử trước, rồi kiểm tra lời giải.\\n\\nĐây là phản hồi mẫu; AI thật sẽ được tích hợp ở phiên bản tiếp theo.';
+ if(page==='creative'||/ý tưởng|viết|video|game/.test(lower))return 'Ý tưởng khởi đầu: xác định chủ đề, nhân vật chính và một mục tiêu rõ ràng. Sau đó chia dự án thành các phần nhỏ để thực hiện.\\n\\nĐây là nội dung demo, chưa được tạo bởi mô hình AI.';
+ return 'Cảm ơn bạn đã nhắn cho NOVA! ✦\\n\\nMình đã nhận được: “'+text+'”\\n\\nHiện tại NOVA đang ở chế độ demo. Phiên bản tiếp theo sẽ kết nối mô hình AI thật để trả lời thông minh hơn.';
+}
+function send(){const input=document.getElementById('prompt');if(!input)return;const text=input.value.trim();if(!text)return;messages.push({role:'user',text});messages.push({role:'bot',text:response(text)});const chat=document.getElementById('chat');chat.innerHTML='';messages.forEach(m=>addBubble(m.role,m.text,chat));input.value='';saveHistory()}
+function saveHistory(){localStorage.setItem('novaHistory',JSON.stringify(messages.slice(-30)));loadHistory()}
+function loadHistory(){const h=document.getElementById('history');let data=[];try{data=JSON.parse(localStorage.getItem('novaHistory')||'[]')}catch(e){};h.innerHTML=data.length?`<button title="Mở cuộc trò chuyện gần đây">✧ ${String(data.find(x=>x.role==='user')?.text||'Cuộc trò chuyện').slice(0,25)}</button>`:'<button>Chưa có cuộc trò chuyện</button>'}
+document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>{page=b.dataset.page;render()}));
+document.getElementById('newChat').onclick=()=>{page='chat';messages=[];render()};
+document.getElementById('plans').onclick=()=>{page='settings';render();};
+loadHistory();render();
+</script>
+</body>
+</html>
